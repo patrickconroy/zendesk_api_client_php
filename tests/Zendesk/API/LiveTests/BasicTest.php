@@ -86,10 +86,10 @@ abstract class BasicTest extends \PHPUnit_Framework_TestCase
 
     public function credentialsTest()
     {
-        $this->assertNotEmpty($this->subdomain,
+        $this->assertEquals($this->subdomain != '', true,
             'Expecting $this->subdomain parameter; does phpunit.xml exist?');
-        $this->assertNotEmpty($this->token, 'Expecting $this->token parameter; does phpunit.xml exist?');
-        $this->assertNotEmpty($this->username,
+        $this->assertEquals($this->token != '', true, 'Expecting $this->token parameter; does phpunit.xml exist?');
+        $this->assertEquals($this->username != '', true,
             'Expecting $this->username parameter; does phpunit.xml exist?');
     }
 }
