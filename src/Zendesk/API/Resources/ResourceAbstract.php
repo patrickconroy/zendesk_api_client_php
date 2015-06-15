@@ -2,6 +2,7 @@
 
 namespace Zendesk\API\Resources;
 
+use Zendesk\API\Exceptions\MissingParametersException;
 use Zendesk\API\Http;
 use Zendesk\API\HttpClient;
 use Zendesk\API\UtilityTraits\ChainedParametersTrait;
@@ -33,6 +34,11 @@ abstract class ResourceAbstract
      * @var array
      */
     protected $routes;
+
+    /**
+     * @var array
+     */
+    protected $additionalRouteParams = [];
 
     /**
      * @param HttpClient $client
@@ -223,7 +229,9 @@ abstract class ResourceAbstract
         }
 
         $route = $this->routes[$name];
-        foreach ($params as $name => $value) {
+
+        $substitutions = array_merge($params, $this->getAdditionalRouteParams());
+        foreach ($substitutions as $name => $value) {
             if (is_scalar( $value )) {
                 $route = str_replace( '{' . $name . '}', $value, $route );
             }
@@ -272,9 +280,7 @@ abstract class ResourceAbstract
     public function find( $id = null, array $queryParams = array() )
     {
         if (empty( $id )) {
-            $chainedParameters = $this->getChainedParameters();
-            $className         = get_class( $this );
-            $id                = isset( $chainedParameters[$className] ) ? $chainedParameters[$className] : null;
+            $id = $this->getChainedParameter(get_class($this));
         }
 
         if (empty( $id )) {
@@ -283,7 +289,7 @@ abstract class ResourceAbstract
 
         $response = Http::send_with_options(
           $this->client,
-          $this->getRoute( __FUNCTION__, array( 'id' => $id ) ),
+          $this->getRoute(__FUNCTION__, ['id' => $id]),
           [ 'queryParams' => $queryParams ]
         );
         $this->client->setSideload( null );
@@ -291,6 +297,21 @@ abstract class ResourceAbstract
         return $response;
     }
 
+    /**
+     * @param array $additionalRouteParams
+     */
+    public function setAdditionalRouteParams($additionalRouteParams)
+    {
+        $this->additionalRouteParams = $additionalRouteParams;
+    }
+
+    /**
+     * @return array
+     */
+    public function getAdditionalRouteParams()
+    {
+        return $this->additionalRouteParams;
+    }
 
     /**
      * Create a new resource
