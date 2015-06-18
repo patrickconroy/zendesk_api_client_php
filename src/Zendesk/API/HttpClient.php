@@ -7,6 +7,7 @@ namespace Zendesk\API;
  * spl_autoload_register(function($c){@include 'src/'.preg_replace('#\\\|_(?!.+\\\)#','/',$c).'.php';});
  */
 
+use Zendesk\API\Resources\Attachments;
 use Zendesk\API\Resources\Tags;
 use Zendesk\API\Resources\Tickets;
 use Zendesk\API\Resources\Users;
@@ -135,7 +136,8 @@ class HttpClient
             'tickets' => Tickets::class,
             'users'   => Users::class,
             'views'   => Views::class,
-            'tags'    => Tags::class
+            'tags'    => Tags::class,
+            'attachments' => Attachments::class,
         ];
     }
 

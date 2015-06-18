@@ -54,38 +54,45 @@ class Http
      * @return array The response body, parsed from JSON into an associative array
      */
     public static function send_with_options(
-        HttpClient $client,
-        $endPoint,
-        $options = []
+      HttpClient $client,
+      $endPoint,
+      $options = []
     ) {
         $options = array_merge(
-            [
-                'method' => 'GET',
-                'contentType' => 'application/json',
-                'postFields' => [],
-                'queryParams' => []
-            ],
-            $options
+          [
+            'method'      => 'GET',
+            'contentType' => 'application/json',
+            'postFields'  => [],
+            'queryParams' => [],
+            'file'        => null,
+          ],
+          $options
         );
 
-        $method = $options["method"];
-        $contentType = $options["contentType"];
-        $postFields = $options["postFields"];
-        $queryParams = $options["queryParams"];
+        $requestOptions = [
+          'headers' => [
+            'Accept'       => 'application/json',
+            'Content-Type' => $options['contentType']
+          ]
+        ];
 
-        $url = $client->getApiUrl() . $endPoint;
+        if ( ! empty($options['queryParams'])) {
+            $requestOptions['query'] = $options['queryParams'];
+        }
+
+        if ( ! empty($options['postFields'])) {
+            $requestOptions['body'] = json_encode($options['postFields']);
+        } elseif ( ! empty($options['file'])) {
+            if (file_exists($options['file'])) {
+                $body                   = fopen($options['file'], 'r');
+                $requestOptions['body'] = $body;
+            }
+        }
 
         $request = $client->guzzle->createRequest(
-            $method,
-            $url,
-            [
-                'query' => $queryParams,
-                'body' => json_encode($postFields),
-                'headers' => [
-                    'Accept' => 'application/json',
-                    'Content-Type' => $contentType
-                ]
-            ]
+          $options['method'],
+          $client->getApiUrl() . $endPoint,
+          $requestOptions
         );
 
         try {
@@ -99,10 +106,10 @@ class Http
         $parsedResponseBody = json_decode($response->getBody());
 
         $client->setDebug(
-            $response->getHeaders(),
-            $responseCode,
-            10,
-            null
+          $response->getHeaders(),
+          $responseCode,
+          10,
+          null
         );
 
         return $parsedResponseBody;
@@ -129,12 +136,12 @@ class Http
         $curl->setopt(CURLOPT_URL, $url);
         $curl->setopt(CURLOPT_POST, true);
         $curl->setopt(CURLOPT_POSTFIELDS, json_encode(array(
-            'grant_type' => 'authorization_code',
-            'code' => $code,
-            'client_id' => $oAuthId,
-            'client_secret' => $oAuthSecret,
-            'redirect_uri' => ($_SERVER['HTTPS'] ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],
-            'scope' => 'read'
+          'grant_type'    => 'authorization_code',
+          'code'          => $code,
+          'client_id'     => $oAuthId,
+          'client_secret' => $oAuthSecret,
+          'redirect_uri'  => ($_SERVER['HTTPS'] ? 'https://' : 'http://') . $_SERVER['HTTP_HOST'] . $_SERVER['PHP_SELF'],
+          'scope'         => 'read'
         )));
         $curl->setopt(CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
         $curl->setopt(CURLINFO_HEADER_OUT, true);
@@ -154,10 +161,10 @@ class Http
         $responseBody = substr($response, $headerSize);
         $responseObject = json_decode($responseBody);
         $client->setDebug(
-            $curl->getinfo(CURLINFO_HEADER_OUT),
-            $curl->getinfo(CURLINFO_HTTP_CODE),
-            substr($response, 0, $headerSize),
-            (isset($responseObject->error) ? $responseObject : null)
+          $curl->getinfo(CURLINFO_HEADER_OUT),
+          $curl->getinfo(CURLINFO_HTTP_CODE),
+          substr($response, 0, $headerSize),
+          (isset($responseObject->error) ? $responseObject : null)
         );
         $curl->close();
         self::$curl = null;

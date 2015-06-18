@@ -329,8 +329,8 @@ class Users extends ResourceAbstract
     {
         $response = Http::send_with_options(
           $this->client,
-          $this->getRoute( __FUNCTION__ ),
-          [ 'method' => 'POST', 'queryParams' => $params ]
+          $this->getRoute(__FUNCTION__),
+          ['queryParams' => $params ]
         );
 
         $this->client->setSideload( null );

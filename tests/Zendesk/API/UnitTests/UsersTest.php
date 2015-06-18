@@ -314,7 +314,7 @@ class UsersTest extends BasicTest
     {
         $queryParams = ['name' => 'joh'];
         $this->mockApiCall(
-          'POST',
+          'GET',
           'users/autocomplete.json',
           ['users' =>[['id' => 12345]]],
           ['queryParams' => $queryParams]

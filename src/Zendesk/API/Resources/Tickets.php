@@ -58,7 +58,8 @@ class Tickets extends ResourceAbstract
     {
         return [
             'comments' => TicketComments::class,
-            'tags'     => Tags::class
+            'tags'     => Tags::class,
+            'attachments' => Attachments::class,
         ];
     }
 
@@ -493,7 +494,6 @@ class Tickets extends ResourceAbstract
     /**
      * @param array $params
      *
-     * @throws CustomException
      * @throws MissingParametersException
      * @throws ResponseException
      *
