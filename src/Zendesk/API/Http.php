@@ -84,8 +84,8 @@ class Http
             $requestOptions['body'] = json_encode($options['postFields']);
         } elseif ( ! empty($options['file'])) {
             if (file_exists($options['file'])) {
-                $body                   = fopen($options['file'], 'r');
-                $requestOptions['body'] = $body;
+                $file                   = fopen($options['file'], 'r');
+                $requestOptions['body'] = $file;
             }
         }
 
@@ -111,6 +111,10 @@ class Http
           10,
           null
         );
+
+        if (isset($file)) {
+            fclose($file);
+        }
 
         return $parsedResponseBody;
     }
