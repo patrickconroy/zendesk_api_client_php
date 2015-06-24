@@ -146,8 +146,6 @@ class Http
         $responseCode = $client->getDebug()->lastResponseCode;
 
         if ($responseCode >= 400) {
-            print($client->getDebug());
-
             throw new ResponseException(__METHOD__);
         }
 
