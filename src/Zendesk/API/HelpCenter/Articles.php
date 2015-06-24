@@ -1,5 +1,10 @@
 <?php
-namespace Zendesk\API;
+namespace Zendesk\API\HelpCenter;
+
+use Zendesk\API\ClientAbstract;
+use Zendesk\API\Http;
+use Zendesk\API\MissingParametersException;
+use Zendesk\API\ResponseException;
 
 /**
  * The Articles class exposes article information

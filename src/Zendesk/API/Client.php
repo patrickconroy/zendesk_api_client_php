@@ -253,6 +253,13 @@ class Client
     protected $articles;
 
     /**
+     * @var Sections
+     */
+    protected $sections;
+
+    protected $helpcentercategories;
+
+    /**
      * @param string $subdomain
      * @param string $username
      */
@@ -309,7 +316,9 @@ class Client
         $this->voice = new Voice($this);
         $this->locales = new Locales($this);
         $this->push_notification_devices = new PushNotificationDevices($this);
-        $this->articles = new Articles($this);
+        $this->articles = new \Zendesk\API\HelpCenter\Articles($this);
+        $this->sections = new \Zendesk\API\HelpCenter\Sections($this);
+        $this->helpcentercategories = new \Zendesk\API\HelpCenter\Categories($this);
     }
 
     /**
