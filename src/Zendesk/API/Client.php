@@ -248,6 +248,11 @@ class Client
     protected $debug;
 
     /**
+     * @var Articles
+     */
+    protected $articles;
+
+    /**
      * @param string $subdomain
      * @param string $username
      */
@@ -304,6 +309,7 @@ class Client
         $this->voice = new Voice($this);
         $this->locales = new Locales($this);
         $this->push_notification_devices = new PushNotificationDevices($this);
+        $this->articles = new Articles($this);
     }
 
     /**
