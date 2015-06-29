@@ -29,13 +29,14 @@ class Articles extends ClientAbstract
      */
     public function find(array $params = array())
     {
-        if (!$this->hasKeys($params, array('id'))) {
-            throw new MissingParametersException(__METHOD__, array('id'));
-        }
-        $url = sprintf('help_center/%sarticles/%d.json', isset($params['locale']) ? $params['locale'] . '/' : '', $params['id']);
+        $url = sprintf(
+            'help_center/%s%sarticles%s.json',
+            isset($params['locale']) ? $params['locale'] . '/' : '',
+            isset($params['section_id']) ? 'sections/' . $params['section_id'] . '/' : '',
+            isset($params['id']) ? '/' . $params['id'] : ''
+        );
         $endPoint = Http::prepare($url, $this->client->getSideload($params));
         $response = Http::send($this->client, $endPoint);
-
         if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 200)) {
             throw new ResponseException(__METHOD__);
         }

@@ -29,10 +29,11 @@ class Sections extends ClientAbstract
      */
     public function find(array $params = array())
     {
-        if (!$this->hasKeys($params, array('id'))) {
-            throw new MissingParametersException(__METHOD__, array('id'));
-        }
-        $url = sprintf('help_center/sections/%d.json', $params['id']);
+        $url = sprintf(
+            'help_center/%ssections%s.json',
+            isset($params['category_id']) ? 'categories/' . $params['category_id'] . '/' : '',
+            isset($params['id']) ? '/' . $params['id'] : ''
+        );
         $endPoint = Http::prepare($url, $this->client->getSideload($params));
         $response = Http::send($this->client, $endPoint);
 
