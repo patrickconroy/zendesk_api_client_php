@@ -27,7 +27,7 @@ class Articles extends ClientAbstract
      *
      * @return mixed
      */
-    public function find(array $params = array())
+    public function find(array $params = [])
     {
         $url = sprintf(
             'help_center/%s%sarticles%s.json',
@@ -35,7 +35,7 @@ class Articles extends ClientAbstract
             isset($params['section_id']) ? 'sections/' . $params['section_id'] . '/' : '',
             isset($params['id']) ? '/' . $params['id'] : ''
         );
-        $endPoint = Http::prepare($url, $this->client->getSideload($params));
+        $endPoint = Http::prepare($url, $this->client->getSideload($params), isset($params['queryParams']) ? $params['queryParams'] : []);
         $response = Http::send($this->client, $endPoint);
         if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 200)) {
             throw new ResponseException(__METHOD__);
