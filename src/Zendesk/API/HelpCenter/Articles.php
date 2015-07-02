@@ -21,7 +21,6 @@ class Articles extends ClientAbstract
      *
      * @param array $params
      *
-     * @throws MissingParametersException
      * @throws ResponseException
      * @throws \Exception
      *
@@ -37,6 +36,29 @@ class Articles extends ClientAbstract
         );
         $endPoint = Http::prepare($url, $this->client->getSideload($params), isset($params['queryParams']) ? $params['queryParams'] : []);
         $response = Http::send($this->client, $endPoint);
+        if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 200)) {
+            throw new ResponseException(__METHOD__);
+        }
+        $this->client->setSideload(null);
+        return $response;
+    }
+
+    public function search(array $params = [])
+    {
+        $endPoint = Http::prepare('help_center/articles/search.json', $this->client->getSideload($params));
+        $response = Http::send($this->client, $endPoint, isset($params['queryParams']) ? $params['queryParams'] : []);
+        $responseResults = (array)$response;
+        if (isset($responseResults['results'])) {
+            $response = json_decode(json_encode([
+                self::OBJ_NAME_PLURAL => $response->results,
+                'page' => $response->page,
+                'previous_page' => $response->previous_page,
+                'next_page' => $response->next_page,
+                'page_count' => $response->page_count,
+                'count' => $response->count,
+                'per_page' => $response->per_page
+            ]));
+        }
         if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 200)) {
             throw new ResponseException(__METHOD__);
         }
