@@ -322,6 +322,7 @@ class Client
         $this->sections = new \Zendesk\API\HelpCenter\Sections($this);
         $this->helpcentercategories = new \Zendesk\API\HelpCenter\Categories($this);
         $this->votes = new \Zendesk\API\HelpCenter\Votes($this);
+        $this->articlesubscriptions = new \Zendesk\API\HelpCenter\ArticleSubscriptions($this);
     }
 
     /**

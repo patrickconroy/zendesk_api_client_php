@@ -78,7 +78,7 @@ class Http
             } else {
                 $st = http_build_query((array)$json);
                 $curl->setopt(CURLOPT_URL,
-                    $url . ($st !== array() ? (strpos($url, '?') === false ? '?' : '&') . $st : ''));
+                   $url . ($st !== array() ? (strpos($url, '?') === false ? '?' : '&') . $st : ''));
                 $curl->setopt(CURLOPT_CUSTOMREQUEST, $method);
             }
         }
@@ -86,7 +86,6 @@ class Http
         $httpHeader = array('Accept: application/json');
         if ($client->getAuthType() == 'oauth_token') {
             $httpHeader[] = 'Authorization: Bearer ' . $client->getAuthText();
-
         } else {
             $curl->setopt(CURLOPT_USERPWD, $client->getAuthText());
         }
@@ -116,6 +115,7 @@ class Http
         if ($contentType === 'application/json') {
             $json = json_encode($json);
         }
+     
 
         $curl->setopt(CURLOPT_POSTFIELDS, $json);
         $curl->setopt(CURLOPT_HTTPHEADER, $httpHeader);
@@ -144,7 +144,6 @@ class Http
         );
 
         $responseCode = $client->getDebug()->lastResponseCode;
-
         if ($responseCode >= 400) {
             throw new ResponseException(__METHOD__);
         }
