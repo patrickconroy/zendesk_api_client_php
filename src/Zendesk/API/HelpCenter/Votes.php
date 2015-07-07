@@ -47,11 +47,9 @@ class Votes extends ClientAbstract
         if (!$this->hasKeys($params, ['article_id', 'direction'])) {
             throw new MissingParametersException(__METHOD__, ['article_id', 'direction']);
         }
-        $url = sprintf('help_center/articles/%d/votes/%s.json', $params['article_id'], $params['direction']);
+        $url = sprintf('help_center/articles/%d/%s.json', $params['article_id'], $params['direction']);
         $endPoint = Http::prepare($url, $this->client->getSideload($params));
         $response = Http::send($this->client, $endPoint, null, 'POST');
-        pr($response);
-        die();
         if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 200)) {
             throw new ResponseException(__METHOD__);
         }

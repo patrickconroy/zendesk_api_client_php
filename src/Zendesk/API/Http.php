@@ -130,6 +130,7 @@ class Http
         $curl->setopt(CURLOPT_MAXREDIRS, 3);
 
         $response = $curl->exec();
+
         if ($response === false) {
             throw new \Exception(sprintf('Curl error message: "%s" in %s', $curl->error(), __METHOD__));
         }

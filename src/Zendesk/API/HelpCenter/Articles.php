@@ -12,7 +12,6 @@ use Zendesk\API\ResponseException;
  */
 class Articles extends ClientAbstract
 {
-
     const OBJ_NAME = 'article';
     const OBJ_NAME_PLURAL = 'articles';
 
