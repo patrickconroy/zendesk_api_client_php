@@ -265,6 +265,8 @@ class Client
 
     protected $sectionsubscriptions;
 
+    protected $translations;
+
     /**
      * @param string $subdomain
      * @param string $username
@@ -328,6 +330,7 @@ class Client
         $this->votes = new \Zendesk\API\HelpCenter\Votes($this);
         $this->articlesubscriptions = new \Zendesk\API\HelpCenter\ArticleSubscriptions($this);
         $this->sectionsubscriptions = new \Zendesk\API\HelpCenter\SectionSubscriptions($this);
+        $this->translations = new \Zendesk\API\HelpCenter\Translations($this);
     }
 
     /**
