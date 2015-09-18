@@ -132,4 +132,37 @@ class Articles extends ClientAbstract
 
         return true;
     }
+
+    public function createComment(array $params)
+    {
+        if (!$this->hasKeys($params, ['article_id'])) {
+            throw new MissingParametersException(__METHOD__, ['article_id']);
+        }
+        $url = sprintf('help_center/articles/%d/comments.json', $params['article_id']);
+        $endPoint = Http::prepare($url);
+        $response = Http::send($this->client, $endPoint, $params, 'POST');
+        pr($response);
+        die();
+        if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 201)) {
+            throw new ResponseException(__METHOD__);
+        }
+        $this->client->setSideload(null);
+
+        return $response;
+    }
+
+    public function findComments(array $params)
+    {
+        if (!$this->hasKeys($params, ['article_id'])) {
+            throw new MissingParametersException(__METHOD__, ['article_id']);
+        }
+        $url = sprintf('help_center/articles/%d/comments.json', $params['article_id']);
+        $endPoint = Http::prepare($url, $this->client->getSideload($params));
+        $response = Http::send($this->client, $endPoint);
+        if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 200)) {
+            throw new ResponseException(__METHOD__);
+        }
+        $this->client->setSideload(null);
+        return $response;
+    }
 }

@@ -128,8 +128,10 @@ class Http
         $curl->setopt(CURLOPT_VERBOSE, true);
         $curl->setopt(CURLOPT_FOLLOWLOCATION, true);
         $curl->setopt(CURLOPT_MAXREDIRS, 3);
-
+        
+        \RockstarGames\Cake\Log\Log::debug('Zendesk API, getting: ' . $url . '...' . print_r($json, 1));
         $response = $curl->exec();
+        \RockstarGames\Cake\Log\Log::debug($response . PHP_EOL);
 
         if ($response === false) {
             throw new \Exception(sprintf('Curl error message: "%s" in %s', $curl->error(), __METHOD__));
