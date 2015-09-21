@@ -139,10 +139,9 @@ class Articles extends ClientAbstract
             throw new MissingParametersException(__METHOD__, ['article_id']);
         }
         $url = sprintf('help_center/articles/%d/comments.json', $params['article_id']);
+        unset($params['article_id']);
         $endPoint = Http::prepare($url);
         $response = Http::send($this->client, $endPoint, $params, 'POST');
-        pr($response);
-        die();
         if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 201)) {
             throw new ResponseException(__METHOD__);
         }
