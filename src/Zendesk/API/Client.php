@@ -250,7 +250,7 @@ class Client
     /**
      * @var Articles
      */
-    protected $articles;
+    public $articles;
 
     /**
      * @var Sections

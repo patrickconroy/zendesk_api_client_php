@@ -115,7 +115,6 @@ class Http
         if ($contentType === 'application/json') {
             $json = json_encode($json);
         }
-     
 
         $curl->setopt(CURLOPT_POSTFIELDS, $json);
         $curl->setopt(CURLOPT_HTTPHEADER, $httpHeader);
@@ -131,7 +130,6 @@ class Http
         
         \RockstarGames\Cake\Log\Log::debug('Zendesk API, getting: ' . $url . '...' . print_r($json, 1));
         $response = $curl->exec();
-        \RockstarGames\Cake\Log\Log::debug($response . PHP_EOL);
 
         if ($response === false) {
             throw new \Exception(sprintf('Curl error message: "%s" in %s', $curl->error(), __METHOD__));
