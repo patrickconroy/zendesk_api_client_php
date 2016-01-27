@@ -45,7 +45,7 @@ class Articles extends ClientAbstract
     public function search(array $params = [])
     {
         $endPoint = Http::prepare('help_center/articles/search.json', $this->client->getSideload($params));
-        $response = Http::send($this->client, $endPoint, $params);
+        $response = Http::send($this->client, $endPoint, $params['queryParams']);
         $responseResults = (array)$response;
         if (isset($responseResults['results'])) {
             $response = json_decode(json_encode([
