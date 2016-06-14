@@ -34,7 +34,7 @@ class Translations extends ClientAbstract
         $url = sprintf('help_center/%s/%d/translations.json', $params['type'], $params['foreignKey']);
         $endPoint = Http::prepare($url);
         $response = Http::send($this->client, $endPoint, [self::OBJ_NAME => $params[self::OBJ_NAME]], 'POST');
-        if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 201)) {
+        if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode >= 400)) {
             throw new ResponseException(__METHOD__);
         }
         $this->client->setSideload(null);
@@ -50,7 +50,7 @@ class Translations extends ClientAbstract
         $url = sprintf('help_center/%s/%d/translations/%s.json', $params['type'], $params['foreignKey'], $params['translation']['locale']);
         $endPoint = Http::prepare($url);
         $response = Http::send($this->client, $endPoint, [self::OBJ_NAME => $params[self::OBJ_NAME]], 'PUT');
-        if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 201)) {
+        if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode >= 400)) {
             throw new ResponseException(__METHOD__);
         }
         $this->client->setSideload(null);
