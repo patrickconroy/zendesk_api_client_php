@@ -41,4 +41,20 @@ class Translations extends ClientAbstract
 
         return $response;
     }
+
+    public function update(array $params)
+    {
+        if (!$this->hasKeys($params, ['type', 'foreignKey', 'locale'])) {
+            throw new MissingParametersException(__METHOD__, ['type', 'foreignKey', 'locale']);
+        }
+        $url = sprintf('help_center/%s/%d/translations/%s.json', $params['type'], $params['foreignKey'], $params['locale']);
+        $endPoint = Http::prepare($url);
+        $response = Http::send($this->client, $endPoint, [self::OBJ_NAME => $params[self::OBJ_NAME]], 'PUT');
+        if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 201)) {
+            throw new ResponseException(__METHOD__);
+        }
+        $this->client->setSideload(null);
+
+        return $response;
+    }
 }
