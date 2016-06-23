@@ -77,7 +77,7 @@ class SectionSubscriptions extends ClientAbstract
         $url = sprintf('help_center/sections/%d/subscriptions/%d.json', $params['section_id'], $params['id']);
         $endPoint = Http::prepare($url);
         $response = Http::send($this->client, $endPoint, null, 'DELETE');
-        if ((!is_object($response)) || ($this->client->getDebug()->lastResponseCode != 201)) {
+        if (!in_array((int)$this->client->getDebug()->lastResponseCode, [201, 204])) {
             throw new ResponseException(__METHOD__);
         }
         $this->client->setSideload(null);
