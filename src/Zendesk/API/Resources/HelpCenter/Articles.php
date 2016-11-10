@@ -29,7 +29,8 @@ class Articles extends ResourceAbstract
         $this->setRoutes([
             'bulkAttach' => "$this->resourceName/{articleId}/bulk_attachments.json",
             'updateSourceLocale' => "$this->resourceName/{articleId}/source_locale.json",
-            'create' => "{$this->prefix}sections/{section_id}/articles.json"
+            'create' => "{$this->prefix}sections/{section_id}/articles.json",
+            'findAllInSection' => "{$this->prefix}sections/{section_id}/articles.json"
         ]);
     }
 
@@ -58,5 +59,10 @@ class Articles extends ResourceAbstract
             $route,
             ['attachment_ids' => $params]
         );
+    }
+
+    public function findAllInSection(array $queryParams = [], $foo = null)
+    {
+        return $this->client->get($this->getRoute('findAllInSection', $queryParams), $queryParams);
     }
 }

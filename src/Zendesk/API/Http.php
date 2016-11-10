@@ -81,6 +81,8 @@ class Http
             }
         }
 
+        \RockstarGames\Cake\Log\Log::debug($uri);
+
         try {
             list ($request, $requestOptions) = $client->getAuth()->prepareRequest($request, $requestOptions);
             $response = $client->guzzle->send($request, $requestOptions);
