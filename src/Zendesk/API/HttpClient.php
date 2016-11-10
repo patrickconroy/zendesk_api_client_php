@@ -432,6 +432,7 @@ class HttpClient
      */
     public function get($endpoint, $queryParams = [])
     {
+
         $sideloads = $this->getSideload($queryParams);
 
         if (is_array($sideloads)) {
