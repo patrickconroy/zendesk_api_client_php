@@ -27,8 +27,9 @@ class Articles extends ResourceAbstract
     {
         parent::setUpRoutes();
         $this->setRoutes([
-            'bulkAttach'            =>  "$this->resourceName/{articleId}/bulk_attachments.json",
-            'updateSourceLocale'    =>  "$this->resourceName/{articleId}/source_locale.json",
+            'bulkAttach' => "$this->resourceName/{articleId}/bulk_attachments.json",
+            'updateSourceLocale' => "$this->resourceName/{articleId}/source_locale.json",
+            'create' => "{$this->prefix}sections/{section_id}/articles.json"
         ]);
     }
 
