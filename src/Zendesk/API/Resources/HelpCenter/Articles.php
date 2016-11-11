@@ -30,7 +30,10 @@ class Articles extends ResourceAbstract
             'bulkAttach' => "$this->resourceName/{articleId}/bulk_attachments.json",
             'updateSourceLocale' => "$this->resourceName/{articleId}/source_locale.json",
             'create' => "{$this->prefix}sections/{section_id}/articles.json",
-            'findAllInSection' => "{$this->prefix}sections/{section_id}/articles.json"
+            'findAllInSection' => "{$this->prefix}sections/{section_id}/articles.json",
+            'subscribe' => "{$this->resourceName}/{article_id}/subscriptions.json",
+            'getSubscription' => "{$this->resourceName}/{article_id}/subscriptions.json",
+            'unsubscribe' => "{$this->resourceName}/{article_id}/subscriptions/{subscription_id}.json"
         ]);
     }
 
@@ -61,8 +64,23 @@ class Articles extends ResourceAbstract
         );
     }
 
-    public function findAllInSection(array $queryParams = [], $foo = null)
+    public function findAllInSection(array $queryParams = [])
     {
         return $this->client->get($this->getRoute('findAllInSection', $queryParams), $queryParams);
+    }
+
+    public function subscribe(array $queryParams = [])
+    {
+        return $this->client->post($this->getRoute('subscribe', $queryParams), $queryParams);
+    }
+
+    public function getSubscription(array $queryParams = [])
+    {
+        return $this->client->get($this->getRoute('getSubscription', $queryParams), $queryParams);
+    }
+
+    public function unsubscribe(array $queryParams = [])
+    {
+        return $this->client->delete($this->getRoute('unsubscribe', $queryParams), $queryParams);
     }
 }

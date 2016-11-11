@@ -81,7 +81,7 @@ class Http
             }
         }
 
-        \RockstarGames\Cake\Log\Log::debug($uri);
+        \RockstarGames\Cake\Log\Log::debug(isset($uri) ? $uri : $request->getUri());
 
         try {
             list ($request, $requestOptions) = $client->getAuth()->prepareRequest($request, $requestOptions);

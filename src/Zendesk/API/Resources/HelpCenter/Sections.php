@@ -27,10 +27,29 @@ class Sections extends ResourceAbstract
         $this->setRoute('create', "{$this->prefix}categories/{category_id}/sections.json");
         $this->setRoute('findAll', "{$this->prefix}/sections.json");
         $this->setRoute('findAllInCategory', "{$this->prefix}categories/{category_id}/sections.json");
+
+        $this->setRoute('subscribe', "{$this->resourceName}/{section_id}/subscriptions.json");
+        $this->setRoute('getSubscription', "{$this->resourceName}/{section_id}/subscriptions.json");
+        $this->setRoute('unsubscribe', "{$this->resourceName}/{section_id}/subscriptions/{subscription_id}.json");
     }
 
     public function findAllInCategory(array $queryParams = [], $foo = null)
     {
         return $this->client->get($this->getRoute('findAllInCategory', $queryParams), $queryParams);
+    }
+
+    public function subscribe(array $queryParams = [])
+    {
+        return $this->client->post($this->getRoute('subscribe', $queryParams), $queryParams);
+    }
+
+    public function getSubscription(array $queryParams = [])
+    {
+        return $this->client->get($this->getRoute('getSubscription', $queryParams), $queryParams);
+    }
+
+    public function unsubscribe(array $queryParams = [])
+    {
+        return $this->client->delete($this->getRoute('unsubscribe', $queryParams), $queryParams);
     }
 }
