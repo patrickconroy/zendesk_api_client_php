@@ -33,7 +33,8 @@ class Articles extends ResourceAbstract
             'findAllInSection' => "{$this->prefix}sections/{section_id}/articles.json",
             'subscribe' => "{$this->resourceName}/{article_id}/subscriptions.json",
             'getSubscription' => "{$this->resourceName}/{article_id}/subscriptions.json",
-            'unsubscribe' => "{$this->resourceName}/{article_id}/subscriptions/{subscription_id}.json"
+            'unsubscribe' => "{$this->resourceName}/{article_id}/subscriptions/{subscription_id}.json",
+            'search' => "{$this->resourceName}/search.json"
         ]);
     }
 
@@ -82,5 +83,10 @@ class Articles extends ResourceAbstract
     public function unsubscribe(array $queryParams = [])
     {
         return $this->client->delete($this->getRoute('unsubscribe', $queryParams), $queryParams);
+    }
+
+    public function search(array $queryParams = [])
+    {
+        return $this->client->get($this->getRoute('search', $queryParams), $queryParams);
     }
 }
