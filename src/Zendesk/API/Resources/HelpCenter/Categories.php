@@ -25,5 +25,17 @@ class Categories extends ResourceAbstract
     protected function setUpRoutes()
     {
         $this->setRoute('updateSourceLocale', "{$this->resourceName}/{categoryId}/source_locale.json");
+        $this->setRoute('createTranslation', "{$this->resourceName}/{category_id}/translations.json");
+        $this->setRoute('getTranslations', "{$this->resourceName}/{category_id}/translations.json");
+    }
+
+    public function createTranslation(array $queryParams = [])
+    {
+        return $this->client->post($this->getRoute('createTranslation', $queryParams), $queryParams);
+    }
+
+    public function getTranslations(array $queryParams = [])
+    {
+        return $this->client->get($this->getRoute('getTranslations', $queryParams), $queryParams);
     }
 }

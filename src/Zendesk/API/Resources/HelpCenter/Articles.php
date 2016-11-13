@@ -34,7 +34,8 @@ class Articles extends ResourceAbstract
             'subscribe' => "{$this->resourceName}/{article_id}/subscriptions.json",
             'getSubscription' => "{$this->resourceName}/{article_id}/subscriptions.json",
             'unsubscribe' => "{$this->resourceName}/{article_id}/subscriptions/{subscription_id}.json",
-            'search' => "{$this->resourceName}/search.json"
+            'search' => "{$this->resourceName}/search.json",
+            'createTranslation' => "{$this->resourceName}/{article_id}/translations.json"
         ]);
     }
 
@@ -88,5 +89,10 @@ class Articles extends ResourceAbstract
     public function search(array $queryParams = [])
     {
         return $this->client->get($this->getRoute('search', $queryParams), $queryParams);
+    }
+
+    public function createTranslation(array $queryParams = [])
+    {
+        return $this->client->post($this->getRoute('createTranslation', $queryParams), $queryParams);
     }
 }

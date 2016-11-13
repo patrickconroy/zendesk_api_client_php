@@ -31,9 +31,10 @@ class Sections extends ResourceAbstract
         $this->setRoute('subscribe', "{$this->resourceName}/{section_id}/subscriptions.json");
         $this->setRoute('getSubscription', "{$this->resourceName}/{section_id}/subscriptions.json");
         $this->setRoute('unsubscribe', "{$this->resourceName}/{section_id}/subscriptions/{subscription_id}.json");
+        $this->setRoute('createTranslation', "{$this->resourceName}/{section_id}/translations.json");
     }
 
-    public function findAllInCategory(array $queryParams = [], $foo = null)
+    public function findAllInCategory(array $queryParams = [])
     {
         return $this->client->get($this->getRoute('findAllInCategory', $queryParams), $queryParams);
     }
@@ -51,5 +52,10 @@ class Sections extends ResourceAbstract
     public function unsubscribe(array $queryParams = [])
     {
         return $this->client->delete($this->getRoute('unsubscribe', $queryParams), $queryParams);
+    }
+
+    public function createTranslation(array $queryParams = [])
+    {
+        return $this->client->post($this->getRoute('createTranslation', $queryParams), $queryParams);
     }
 }
