@@ -35,7 +35,8 @@ class Articles extends ResourceAbstract
             'getSubscription' => "{$this->resourceName}/{article_id}/subscriptions.json",
             'unsubscribe' => "{$this->resourceName}/{article_id}/subscriptions/{subscription_id}.json",
             'search' => "{$this->resourceName}/search.json",
-            'createTranslation' => "{$this->resourceName}/{article_id}/translations.json"
+            'createTranslation' => "{$this->resourceName}/{article_id}/translations.json",
+            'updateTranslation' => "{$this->resourceName}/{article_id}/translations/{locale}.json"
         ]);
     }
 
@@ -94,5 +95,10 @@ class Articles extends ResourceAbstract
     public function createTranslation(array $queryParams = [])
     {
         return $this->client->post($this->getRoute('createTranslation', $queryParams), $queryParams);
+    }
+
+    public function updateTranslation(array $queryParams = [])
+    {
+        return $this->client->put($this->getRoute('updateTranslation', $queryParams), $queryParams);
     }
 }
