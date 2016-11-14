@@ -36,7 +36,10 @@ class Articles extends ResourceAbstract
             'unsubscribe' => "{$this->resourceName}/{article_id}/subscriptions/{subscription_id}.json",
             'search' => "{$this->resourceName}/search.json",
             'createTranslation' => "{$this->resourceName}/{article_id}/translations.json",
-            'updateTranslation' => "{$this->resourceName}/{article_id}/translations/{locale}.json"
+            'updateTranslation' => "{$this->resourceName}/{article_id}/translations/{locale}.json",
+            'upVote' => "{$this->resourceName}/{article_id}/up.json",
+            'downVote' => "{$this->resourceName}/{article_id}/down.json",
+            'vote' => "{$this->resourceName}/{article_id}/{direction}.json"
         ]);
     }
 
@@ -100,5 +103,20 @@ class Articles extends ResourceAbstract
     public function updateTranslation(array $queryParams = [])
     {
         return $this->client->put($this->getRoute('updateTranslation', $queryParams), $queryParams);
+    }
+
+    public function upVote(array $queryParams = [])
+    {
+        return $this->client->put($this->getRoute('upVote', $queryParams), $queryParams);
+    }
+
+    public function downVote(array $queryParams = [])
+    {
+        return $this->client->put($this->getRoute('downVote', $queryParams), $queryParams);
+    }
+
+    public function vote(array $queryParams = [])
+    {
+        return $this->client->post($this->getRoute('vote', $queryParams), $queryParams);
     }
 }
