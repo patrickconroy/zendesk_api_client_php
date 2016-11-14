@@ -39,7 +39,8 @@ class Articles extends ResourceAbstract
             'updateTranslation' => "{$this->resourceName}/{article_id}/translations/{locale}.json",
             'upVote' => "{$this->resourceName}/{article_id}/up.json",
             'downVote' => "{$this->resourceName}/{article_id}/down.json",
-            'vote' => "{$this->resourceName}/{article_id}/{direction}.json"
+            'vote' => "{$this->resourceName}/{article_id}/{direction}.json",
+            'votes' => "{$this->resourceName}/{article_id}/votes.json"
         ]);
     }
 
@@ -118,5 +119,10 @@ class Articles extends ResourceAbstract
     public function vote(array $queryParams = [])
     {
         return $this->client->post($this->getRoute('vote', $queryParams), $queryParams);
+    }
+
+    public function votes(array $queryParams = [])
+    {
+        return $this->client->get($this->getRoute('votes', $queryParams), $queryParams);
     }
 }
