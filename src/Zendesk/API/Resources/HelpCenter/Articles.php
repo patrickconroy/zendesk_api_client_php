@@ -98,12 +98,22 @@ class Articles extends ResourceAbstract
 
     public function createTranslation(array $queryParams = [])
     {
-        return $this->client->post($this->getRoute('createTranslation', $queryParams), $queryParams);
+        $route = [
+            'article_id' => $queryParams['article_id'],
+            'locale' => $queryParams['locale']
+        ];
+        unset($queryParams['article_id'], $queryParams['locale']);
+        return $this->client->post($this->getRoute('createTranslation', $route), $queryParams);
     }
 
     public function updateTranslation(array $queryParams = [])
     {
-        return $this->client->put($this->getRoute('updateTranslation', $queryParams), $queryParams);
+        $route = [
+            'article_id' => $queryParams['article_id'],
+            'locale' => $queryParams['locale']
+        ];
+        unset($queryParams['article_id'], $queryParams['locale']);
+        return $this->client->put($this->getRoute('updateTranslation', $route), $queryParams);
     }
 
     public function upVote(array $queryParams = [])
