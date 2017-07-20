@@ -40,7 +40,8 @@ class Articles extends ResourceAbstract
             'upVote' => "{$this->resourceName}/{article_id}/up.json",
             'downVote' => "{$this->resourceName}/{article_id}/down.json",
             'vote' => "{$this->resourceName}/{article_id}/{direction}.json",
-            'votes' => "{$this->resourceName}/{article_id}/votes.json"
+            'votes' => "{$this->resourceName}/{article_id}/votes.json",
+            'blockAttachments' => "help_center/{locale}/articles/{article_id}/attachments/block.json"
         ]);
     }
 
@@ -134,5 +135,15 @@ class Articles extends ResourceAbstract
     public function votes(array $queryParams = [])
     {
         return $this->client->get($this->getRoute('votes', $queryParams), $queryParams);
+    }
+
+    public function blockAttachments(array $queryParams = [])
+    {
+        $route = [
+            'article_id' => $queryParams['article_id'],
+            'locale' => $queryParams['locale']
+        ];
+        unset($queryParams['article_id'], $queryParams['locale']);
+        return $this->client->get($this->getRoute('blockAttachments', $route), $queryParams);
     }
 }
